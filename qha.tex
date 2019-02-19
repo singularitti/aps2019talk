@@ -23,16 +23,19 @@
 \usepackage{graphicx}
 \usepackage[version=4]{mhchem}
 \usepackage{siunitx}
-\usepackage[format=plain,
-justification=raggedright,singlelinecheck=false]{caption}
+\usepackage[superscript,biblabel]{cite}
+\usepackage{caption}
 
 \newcommand*{\rmn}[1]{\romannumeral#1}
 \newcommand*{\RMN}[1]{\uppercase\expandafter{\romannumeral#1}}
 
-\author[Qi Zhang et. al.]{Qi Zhang, Tian Qin, Koichiro Umemoto, and Renata M. Wentzcovitch}
+\author[Qi Zhang et. al.]{\underline{Qi Zhang} \inst{1} \and Tian Qin \inst{2} \and Renata Wentzcovitch\inst{1,3} \and Koichiro Umemoto\inst{4}}
+\institute{\inst{1} Applied Physics and Applied Mathematics Department, Columbia University, New York, NY \and%
+	\inst{2} Department of Earth Sciences, University of Minnesota, Minneapolis, MN \and%
+\inst{3} Lamont-Doherty Earth Observatory, Columbia University, Palisades, NY \and%
+\inst{4} Earth-Life Science Institute, Tokyo Institute of Technology}
 \title[\texttt{qha}]{\texttt{qha}: A Python package for quasi-harmonic free energy calculation for multi-configuration systems\cite{qin2018qha}}
-\institute{Columbia University}
-\date{\today}
+\date{}
 
 \begin{document}
 
@@ -62,25 +65,29 @@ justification=raggedright,singlelinecheck=false]{caption}
 \end{frame}
 
 \subsection{Methods}
-\begin{frame}{\subsecname}
+\begin{frame}[allowframebreaks]{\subsecname}
 	\begin{itemize}
 		\item single configuration system: \begin{equation}\footnotesize
-			      F(T, V) = E(V) + \sum_{q=1, m=1}^{N_q, N_m} \bigg\{\frac{ \hbar \omega_{q, m} (V) }{ 2 } + k_B T \ln \bigg[1 - \exp \Big( -\tfrac{\hbar \omega_{q,m} (V)}{k_B T} \Big)
-				      \bigg]\bigg\},
-		      \end{equation}
+		Z(T, V) = \sum_{n=1}^{N_c} g_n \exp\big( -{E_n(V)}/{k_B T} \big) \prod_{q, m} \frac{\exp(-\hbar \omega/2k_B T)}{1 - \exp(-\hbar \omega/k_B T)}, F(T, V) = -k_B T \ln Z(T, V),
+		\end{equation}
 		\item multi-configuration systems: \begin{align}\footnotesize
-			      Z_n (T, V_i) & = \exp \Big( -\frac{ F_n (T, V_i) }{ k_B T } \Big), \\
+			      Z_n (T, V_i) & = \exp \big( -{ F_n (T, V_i) }/{ k_B T } \big), \\
 			      Z(T, V_i)    & = \sum_{n=1}^{N_c} g_n Z_n (T, V_i),                \\
 			      F(T, V_i)    & = -k_B T \ln Z(T, V_i).
 		      \end{align}
 		\item finite strain equation of state fitting to string $\{F(T, V_i)\}$’s to a continuous function $F(T, V)$
 	\end{itemize}
+
+	\begin{figure}
+		\includegraphics[height=0.8\textheight]{images/flow}%
+		\caption{Flowchart of the program}
+	\end{figure}
 \end{frame}
 
-\section{Example}
+\section{Examples}
 
 \subsection{ice VII-VIII phase transition}
-\begin{frame}{\subsecname}
+\begin{frame}[allowframebreaks]{\subsecname}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\begin{itemize}
@@ -94,15 +101,12 @@ justification=raggedright,singlelinecheck=false]{caption}
 			\vspace{\topsep}
 			\begin{figure}
 				\includegraphics[width=\columnwidth]{images/ice7}%
-				\captionsetup{singlelinecheck=off}
-				\caption{(a) The unit cell of ice Ic and the $2\times 2\times 2$ supercell of ice VII.\\
+				\caption{(a) The unit cell of ice Ic and the $2\times 2\times 2$ supercell of ice VII.
 					(b) $4$ distinct hydrogen configurations of ice Ic supercells containing $8$ molecules.}
 			\end{figure}
 		\end{column}
 	\end{columns}
-\end{frame}
 
-\begin{frame}{\subsecname}
 	\begin{columns}
 		\begin{column}{0.4\textwidth}
 			Probabilities of the $52$ symmetrically inequivalent configurations
@@ -123,30 +127,29 @@ justification=raggedright,singlelinecheck=false]{caption}
 			\end{figure}
 		\end{column}
 	\end{columns}
-\end{frame}
 
-\begin{frame}{\subsecname}
 	\begin{columns}
 		\begin{column}{0.45\textwidth}
 			\begin{figure}
 				\includegraphics[width=\columnwidth]{images/deltae}%
-				\caption{Histograms of the total energy $E_i(V)$ at several volumes at (a)
-					\SI{10.32}{\cubic\centi\meter\per\mol} ($\sim$\SI{5}{\giga\pascal}) and (b) \SI{6.79}{\cubic\centi\meter\per\mol} (\SI{50}{\giga\pascal}).}
+				\caption{Histograms of the total energy $E_i(V)$ at several volumes at
+					(a) \SI{10.32}{\cubic\centi\meter\per\mol} ($\sim$\SI{5}{\giga\pascal}),
+					(b) \SI{6.79}{\cubic\centi\meter\per\mol} (\SI{50}{\giga\pascal}).}
 			\end{figure}
 		\end{column}
 
 		\begin{column}{0.45\textwidth}
 			\begin{figure}
 				\includegraphics[width=\columnwidth]{images/dltevsp}%
-				\caption{Energy distribution: $\Delta E(V) = \max_{1 \leq i \leq 52}[E_i] - \min_{1 \leq i \leq 52}[E_i]$}
+				\caption{Energy distribution: $\Delta E(V) = \max_{1 \leq i \leq 52}[E_i] - \min_{1 \leq i \leq 52}[E_i]$\\
+					Clapeyron slope: $\Big( \frac{ \partial T }{ \partial P } \Big)_{ S } = \Big( \frac{ \partial V }{ \partial S } \Big)_{ P } < 0$}
 			\end{figure}
 		\end{column}
 	\end{columns}
 \end{frame}
 
 \subsection{stability of hydrous defects in \ce{Mg2SiO4}-forsterite}
-
-\begin{frame}{\subsecname}
+\begin{frame}[allowframebreaks]{\subsecname}
 	\begin{columns}
 		\begin{column}{0.4\textwidth}
 			\begin{figure}
@@ -164,22 +167,6 @@ justification=raggedright,singlelinecheck=false]{caption}
 			\end{figure}
 		\end{column}
 	\end{columns}
-\end{frame}
-
-\begin{frame}{\subsecname}
-	% \begin{columns}
-	% 	\begin{column}{0.4\textwidth}
-
-	% 	\end{column}
-
-	% 	\begin{column}{0.5\textwidth}
-	% 		\vspace{\topsep}
-	% 		\begin{figure}
-	% 			\includegraphics[width=\columnwidth]{simg}%
-	% 			\caption{Degeneracies, relative energies, and probabilities of various defects (static calculation)}
-	% 		\end{figure}
-	% 	\end{column}
-	% \end{columns}
 
 	\begin{figure}
 		\includegraphics[height=0.6\textheight]{images/simg}%
@@ -189,12 +176,13 @@ justification=raggedright,singlelinecheck=false]{caption}
 
 \section{Conclusion}
 
-\subsection{Differences between other code}
+\subsection{Comparisons with other codes}
 \begin{frame}{\subsecname}
 	\begin{columns}
 		\begin{column}{0.45\textwidth}
 			\texttt{qha}\\
 			\begin{itemize}
+				\item $G(T,p) = F(T, V) - \Big( \frac{ \partial F }{ \partial V } \Big)_T V$
 				\item directly sample the free energy in Brillouin zone
 				\item addresses multi-configuration systems
 				\item has command line interface for running and drawing
@@ -205,7 +193,8 @@ justification=raggedright,singlelinecheck=false]{caption}
 		\begin{column}{0.45\textwidth}
 			other codes\\
 			\begin{itemize}
-				\item integrate the vibrational density of states $g(\omega)$ to get $F$
+				\item $G(T,p)= \min_{V}[F(T,V)+pV]$ \cite{phonopy}
+				\item integrate the vibrational density of states $g(\omega)$ to get $F$ \cite{Petretto:2018gg}
 				\item address the thermodynamic properties of single configuration systems
 				\item command line interfaces are not very convenient
 				\item Some also are Python, but are slow
@@ -216,16 +205,24 @@ justification=raggedright,singlelinecheck=false]{caption}
 
 \subsection{Applications to geophysical and mineralogy research}
 \begin{frame}{\subsecname}
-	\begin{itemize}
-		\item can be extended to investigate thermoelastic properties of materials
-		\item can be extended to investigate metals with its phonon frequencies varying at different temperature
-		\item combine with geothermpy code to calculate the geotherm and isentrope
-		\item can combine with rfpr code to calculate the reduced partitioning function ratio
-	\end{itemize}
-\end{frame}
+	\begin{columns}
+		\begin{column}{0.45\textwidth}
+			\begin{figure}
+				\includegraphics[height=0.8\textheight]{images/website}%
+				\captionsetup{labelformat=empty}
+				\caption{\scriptsize\url{https://github.com/MineralsCloud/qha}}
+			\end{figure}
+		\end{column}
 
-\begin{frame}{Website}
-	\includegraphics[height=0.8\textheight]{images/website}%
+		\begin{column}{0.45\textwidth}
+			\begin{itemize}
+				\item can be extended to investigate thermoelastic properties of materials \cite{Wu:2011ea}
+				\item can be extended to investigate metals with its phonon frequencies varying at different temperature
+				\item combine with geothermpy code to calculate the geotherm and isentrope \cite{Cardona:2017dd}
+				\item can combine with \texttt{rfpr} code to calculate the isotope fractionation factor
+			\end{itemize}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \section{References}
