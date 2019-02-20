@@ -5,10 +5,11 @@
 \documentclass[13pt,aspectratio=169]{beamer}
 
 \usetheme{Berkeley}
-\usecolortheme{seagull}
+\usecolortheme{crane}
 \makeatletter
 \beamer@headheight=1.5\baselineskip
 \makeatother
+\setbeamertemplate{navigation symbols}{}
 \addtobeamertemplate{navigation symbols}{}{%
 	\usebeamerfont{footline}%
 	\usebeamercolor[fg]{footline}%
@@ -16,15 +17,18 @@
 	\insertframenumber/\inserttotalframenumber
 }
 \setbeamertemplate{caption}[numbered]
+\setbeamercovered{transparent}
 
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage[version=4]{mhchem}
 \usepackage{siunitx}
-\usepackage[superscript,biblabel]{cite}
-\usepackage{caption}
+\usepackage[figurename=Fig.]{caption}
+\usepackage{bm}
+%\usepackage[citestyle=verbose,bibstyle=numeric,backend=biber]{biblatex}
 
 \newcommand*{\rmn}[1]{\romannumeral#1}
 \newcommand*{\RMN}[1]{\uppercase\expandafter{\romannumeral#1}}
@@ -37,6 +41,8 @@
 \title[\texttt{qha}]{\texttt{qha}: A Python package for quasi-harmonic free energy calculation for multi-configuration systems\cite{qin2018qha}}
 \date{}
 
+%\addbibresource{ref.bib}
+
 \begin{document}
 
 \begin{frame}
@@ -47,17 +53,19 @@
 
 \subsection{Quasi-harmonic approximation (QHA)}
 \begin{frame}{\subsecname}
-	\begin{itemize}
-		\item QHA is a useful tool to compute materials thermodynamic properties at high temperature and pressure
-		\item QHA remains a good approximation up to about $\frac{ 2 }{ 3 }$ of the melting temperature
-		\item The combination of ab initio calculation (DFT, DFPT) with QHA can capture both static and vibrational contribution to free energy and other thermodynamic properties
-		\item Can deal with systems with multiple structural configurations
+	\begin{itemize}[<+(1)->]
+		\setlength\itemsep{1em}
+		\item a useful tool to compute materials thermodynamic properties at high $T$, $P$
+		\item a good approximation up to about $\frac{ 2 }{ 3 }$ of the $T_\text{melting}$
+		\item static contribution by (DFT, AIMD), vibrational contribution: DFPT followed by QHA
+		\item deal with multiple configuration systems
 	\end{itemize}
 \end{frame}
 
 \subsection{Multi-configuration system that \texttt{qha} may apply}
 \begin{frame}{\subsecname}
-	\begin{itemize}
+	\begin{itemize}[<+(1)->]
+		\setlength\itemsep{1em}
 		\item the order-disorder phase boundary between ice-\RMN{8} and ice-\RMN{7} \cite{umemoto2010order},
 		\item the relative stability of hydrous defects in \ce{Mg2SiO4}-forsterite at high $P$ and $T$ \cite{qin2018ab},
 		\item the effect of disorder and iron concentration on the spin crossover diagram of \ce{Fe^3+}-bearing \ce{MgSiO3}-bridgmanite \cite{shukla2016spin}.
@@ -65,76 +73,50 @@
 \end{frame}
 
 \subsection{Methods}
-\begin{frame}[allowframebreaks]{\subsecname}
-	\begin{itemize}
-		\item single configuration system: \begin{equation}\footnotesize
-			      Z(T, V) = \sum_{n=1}^{N_c} g_n \exp\big( -{E_n(V)}/{k_B T} \big) \prod_{q, m} \frac{\exp(-\hbar \omega/2k_B T)}{1 - \exp(-\hbar \omega/k_B T)}, F(T, V) = -k_B T \ln Z(T, V),
-		      \end{equation}
-		\item multi-configuration systems: \begin{align}\footnotesize
-			      Z_n (T, V_i) & = \exp \big( -{ F_n (T, V_i) }/{ k_B T } \big), \\
-			      Z(T, V_i)    & = \sum_{n=1}^{N_c} g_n Z_n (T, V_i),            \\
-			      F(T, V_i)    & = -k_B T \ln Z(T, V_i).
+\begin{frame}{\subsecname}
+	\begin{itemize}[<+(1)->]
+		\item single configuration system:
+		      \begin{align}
+			      Z(T, V) & = \exp\big( -{E(V)}/{k_B T} \big) \prod_{\bm{q}, m} \frac{\exp(-\hbar \omega_{\bm{q}s}/2k_B T)}{1 - \exp(-\hbar \omega_{\bm{q}s}/k_B T)}, \\
+			      F(T, V) & = -k_B T \ln Z(T, V),
+		      \end{align}
+		\item multi-configuration systems:
+		      \begin{align}
+			      Z(T, V_i) & = \sum_{n=1}^{N_c} g_n Z_n (T, V_i), \\
+			      F(T, V_i) & = -k_B T \ln Z(T, V_i).
 		      \end{align}
 		\item finite strain equation of state fitting to string $\{F(T, V_i)\}$’s to a continuous function $F(T, V)$
 	\end{itemize}
+\end{frame}
 
-	\begin{figure}
-		\includegraphics[height=0.8\textheight]{images/flow}%
-		\caption{Flowchart of the program}
-	\end{figure}
+\begin{frame}{\subsecname}
+	\centering
+	\includegraphics[height=0.95\textheight]{images/flow}%
 \end{frame}
 
 \section{Examples}
 
-\subsection{ice VII-VIII phase transition}
-\begin{frame}[allowframebreaks]{\subsecname}
-	\begin{columns}
-		\begin{column}{0.5\textwidth}
-			\begin{itemize}
-				\item The ice Ic has $90$ possible hydrogen configuration, with $4$ symmetrically distinct ones.
-				\item The ice \RMN{7} supercell has $8100$ configurations in total, with $52$ symmetrically distinct ones.
-				\item Ice \RMN{8} is denoted as the first configuration of ice \RMN{7}.
-			\end{itemize}
-		\end{column}
+\subsection{ice VII(disorder)-VIII(order) phase transition}
+\begin{frame}{\subsecname}
+	\centering
+	\includegraphics[height=0.9\textheight]{images/ice7}%
+\end{frame}
 
-		\begin{column}{0.45\textwidth}
-			\vspace{\topsep}
-			\begin{figure}
-				\includegraphics[width=\columnwidth]{images/ice7}%
-				\caption{(a) The unit cell of ice Ic and the $2\times 2\times 2$ supercell of ice VII.
-					(b) $4$ distinct hydrogen configurations of ice Ic supercells containing $8$ molecules.}
-			\end{figure}
-		\end{column}
-	\end{columns}
+\begin{frame}{\subsecname}
+	\begin{figure}
+		\includegraphics[height=0.8\textheight]{images/ice_prob}%
+		\caption{Possibilities $P_i(V, T) = \frac{g_i \exp\Big(\frac{-E_i(V)}{k_B T}\Big)}{Z(V, T)}$ of the $52$ configurations}
+	\end{figure}
+\end{frame}
 
-	\begin{columns}
-		\begin{column}{0.4\textwidth}
-			Probabilities of the $52$ symmetrically inequivalent configurations
-			generated by the $16$-molecule supercell.
-			The contributions from the 2nd to the last configurations
-			are not negligible and must be all taken into account.
-
-			\begin{equation*}
-				P_i(V, T) = \frac{g_i \exp\Big(\frac{-E_i(V)}{k_B T}\Big)}{Z(V, T)}
-			\end{equation*}
-		\end{column}
-
-		\begin{column}{0.5\textwidth}
-			\vspace{\topsep}
-			\begin{figure}
-				\includegraphics[width=\columnwidth]{images/ice_prob}%
-				\caption{Possibilities of each configuration at (a): \SI{10}{\giga\pascal}, (b): \SI{300}{\kelvin}}
-			\end{figure}
-		\end{column}
-	\end{columns}
-
+\begin{frame}{\subsecname}
 	\begin{columns}
 		\begin{column}{0.45\textwidth}
 			\begin{figure}
 				\includegraphics[width=\columnwidth]{images/deltae}%
 				\caption{Histograms of the total energy $E_i(V)$ at several volumes at
-					(a) \SI{10.32}{\cubic\centi\meter\per\mol} ($\sim$\SI{5}{\giga\pascal}),
-					(b) \SI{6.79}{\cubic\centi\meter\per\mol} (\SI{50}{\giga\pascal}).}
+					(a) $\sim$\SI{5}{\giga\pascal},
+					(b) \SI{50}{\giga\pascal}.}
 			\end{figure}
 		\end{column}
 
@@ -181,10 +163,10 @@
 	\begin{columns}
 		\begin{column}{0.45\textwidth}
 			\texttt{qha}\\
-			\begin{itemize}
+			\begin{itemize}[<+(1)->]
+				\item addresses multi-configuration systems
 				\item $G(T,p) = F(T, V) - \Big( \frac{ \partial F }{ \partial V } \Big)_T V$
 				\item directly sample the free energy in Brillouin zone
-				\item addresses multi-configuration systems
 				\item has command line interface for running and drawing
 				\item uses JIT techniques to speedup computation
 			\end{itemize}
@@ -193,11 +175,9 @@
 		\begin{column}{0.45\textwidth}
 			other codes\\
 			\begin{itemize}
+				\item address the thermodynamic properties of single configuration systems
 				\item $G(T,p)= \min_{V}[F(T,V)+pV]$ \cite{phonopy}
 				\item integrate the vibrational density of states $g(\omega)$ to get $F$ \cite{Petretto:2018gg}
-				\item address the thermodynamic properties of single configuration systems
-				\item command line interfaces are not very convenient
-				\item Some also are Python, but are slow
 			\end{itemize}
 		\end{column}
 	\end{columns}
@@ -215,23 +195,23 @@
 		\end{column}
 
 		\begin{column}{0.45\textwidth}
-			\begin{itemize}
-				\item can be extended to investigate thermoelastic properties of materials \cite{Wu:2011ea}
-				\item can be extended to investigate metals with its phonon frequencies varying at different temperature
-				\item combine with geothermpy code to calculate the geotherm and isentrope \cite{Cardona:2017dd}
-				\item can combine with \texttt{rfpr} code to calculate the isotope fractionation factor
+			\begin{itemize}[<+(1)->]
+				\item investigate thermoelastic properties of materials \cite{Wu:2011ea}
+				\item investigate metals with its phonon frequencies varying at different temperature
+				\item calculate the geotherm and isentrope \cite{Cardona:2017dd}
+				\item calculate the isotope ratio and isotope fractionation factor
 			\end{itemize}
 		\end{column}
 	\end{columns}
 \end{frame}
 
-\section{References}
-\begin{frame}[allowframebreaks]{\secname}
-	\bibliographystyle{unsrt}
-	\bibliography{ref}
-\end{frame}
+%\section{References}
+%\begin{frame}[allowframebreaks]{\secname}
+%	\printbibliography
+%\end{frame}
+\bibliography{ref}
 
-\begin{frame}{Acknowledgement}
+\begin{frame}{Acknowledgements}
 	\begin{itemize}
 		\item NSF EAR-1503084, NSF EAR-1341862, NSF EAR-1348066
 		\item Stampede2 at the Texas Advanced Computing Center (TACC), University of Texas at Austin
