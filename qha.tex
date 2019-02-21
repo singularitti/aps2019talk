@@ -1,6 +1,6 @@
 % !TEX program = pdflatex
 % !TEX encoding = UTF-8
-% !BIB program = bibtex
+% !BIB program = biber
 % !TEX spellcheck = en_US
 \documentclass[13pt,aspectratio=169]{beamer}
 
@@ -28,20 +28,44 @@
 \usepackage{siunitx}
 \usepackage[figurename=Fig.]{caption}
 \usepackage{bm}
-%\usepackage[citestyle=verbose,bibstyle=numeric,backend=biber]{biblatex}
+\usepackage[bibstyle=nature,backend=biber]{biblatex}
 
 \newcommand*{\rmn}[1]{\romannumeral#1}
 \newcommand*{\RMN}[1]{\uppercase\expandafter{\romannumeral#1}}
+\DeclareCiteCommand{\footcite}[\mkbibfootnote]
+	{\usebibmacro{prenote}}
+	{\printnames[family-given]{labelname}%
+		\newunit
+		\printfield{journaltitle}%
+		\newunit
+		\printfield{year}
+		\newunit
+		\printlabeldateextra
+	}
+	{\addsemicolon\space}
+	{\usebibmacro{postnote}
+}
+\DeclareCiteCommand{\footcitetext}[\footnotetext]
+	{\usebibmacro{prenote}}
+	{\printnames[family-given]{labelname}%
+		\newunit
+		\printfield{journaltitle}%
+		\newunit
+		\printfield{year}
+	}
+	{\addsemicolon\space}
+	{\usebibmacro{postnote}
+}
 
 \author[Qi Zhang et. al.]{\underline{Qi Zhang} \inst{1} \and Tian Qin \inst{2} \and Renata Wentzcovitch\inst{1,3} \and Koichiro Umemoto\inst{4}}
 \institute{\inst{1} Applied Physics and Applied Mathematics Department, Columbia University, New York, NY \and%
 	\inst{2} Department of Earth Sciences, University of Minnesota, Minneapolis, MN \and%
 \inst{3} Lamont-Doherty Earth Observatory, Columbia University, Palisades, NY \and%
 \inst{4} Earth-Life Science Institute, Tokyo Institute of Technology}
-\title[\texttt{qha}]{\texttt{qha}: A Python package for quasi-harmonic free energy calculation for multi-configuration systems\cite{qin2018qha}}
+\title[\texttt{qha}]{\texttt{qha}: A Python package for quasi-harmonic free energy calculation for multi-configuration systems\footcite{qin2018qha}}
 \date{}
 
-%\addbibresource{ref.bib}
+\addbibresource{ref.bib}
 
 \begin{document}
 
@@ -66,9 +90,9 @@
 \begin{frame}{\subsecname}
 	\begin{itemize}[<+(1)->]
 		\setlength\itemsep{1em}
-		\item the order-disorder phase boundary between ice-\RMN{8} and ice-\RMN{7} \cite{umemoto2010order},
-		\item the relative stability of hydrous defects in \ce{Mg2SiO4}-forsterite at high $P$ and $T$ \cite{qin2018ab},
-		\item the effect of disorder and iron concentration on the spin crossover diagram of \ce{Fe^3+}-bearing \ce{MgSiO3}-bridgmanite \cite{shukla2016spin}.
+		\item the order-disorder phase boundary between ice-\RMN{8} and ice-\RMN{7} \footcite{umemoto2010order},
+		\item the relative stability of hydrous defects in \ce{Mg2SiO4}-forsterite at high $P$ and $T$ \footcite{qin2018ab},
+		\item the effect of disorder and iron concentration on the spin crossover diagram of \ce{Fe^3+}-bearing \ce{MgSiO3}-bridgmanite \footcite{shukla2016spin}.
 	\end{itemize}
 \end{frame}
 
@@ -104,7 +128,7 @@
 
 \begin{frame}{\subsecname}
 	\begin{figure}
-		\includegraphics[height=0.8\textheight]{images/ice_prob}%
+		\includegraphics[height=0.75\textheight]{images/ice_prob}%
 		\caption{Possibilities $P_i(V, T) = \frac{g_i \exp\Big(\frac{-E_i(V)}{k_B T}\Big)}{Z(V, T)}$ of the $52$ configurations}
 	\end{figure}
 \end{frame}
@@ -171,11 +195,15 @@
 			other codes\\
 			\begin{itemize}
 				\item address the thermodynamic properties of single configuration systems
-				\item $G(T,p)= \min_{V}[F(T,V)+pV]$ \cite{phonopy}
-				\item integrate the vibrational density of states $g(\omega)$ to get $F$ \cite{Petretto:2018gg}
+				\item $G(T,p)= \min_{V}[F(T,V)+pV]$ \footnotemark
+				\item integrate the vibrational density of states $g(\omega)$ to get $F$ \footnotemark
 			\end{itemize}
 		\end{column}
 	\end{columns}
+	\setcounter{footnote}{5}
+	\footcitetext{Wu:2011ea}
+	\stepcounter{footnote}
+	\footcitetext{Petretto:2018gg}
 \end{frame}
 
 \subsection{Applications and extensibility}
@@ -183,7 +211,7 @@
 	\begin{columns}
 		\begin{column}{0.45\textwidth}
 			\begin{figure}
-				\includegraphics[height=0.8\textheight]{images/website}%
+				\includegraphics[height=0.7\textheight]{images/website}%
 				\captionsetup{labelformat=empty}
 				\caption{\scriptsize\url{https://github.com/MineralsCloud/qha}}
 			\end{figure}
@@ -193,17 +221,21 @@
 			\begin{itemize}[<+(1)->]
 				\item Applications to materials research
 				      \begin{itemize}
-					      \item investigate thermoelastic properties of materials \cite{Wu:2011ea}
+					      \item investigate thermoelastic properties of materials \footnotemark
 					      \item investigate metals with its phonon frequencies varying at different temperature
 				      \end{itemize}
 				\item Applications to geophysical research
 				      \begin{itemize}
-					      \item calculate the geotherm and isentrope \cite{Cardona:2017dd}
+					      \item calculate the geotherm and isentrope \footnotemark
 					      \item calculate the isotope ratio and isotope fractionation factor
 				      \end{itemize}
 			\end{itemize}
 		\end{column}
 	\end{columns}
+	\setcounter{footnote}{7}
+	\footcitetext{Wu:2011ea}
+	\stepcounter{footnote}
+	\footcitetext{Cardona:2017dd}
 \end{frame}
 
 \begin{frame}{\secname}
@@ -214,11 +246,10 @@
 	\end{itemize}
 \end{frame}
 
-%\section{References}
-%\begin{frame}[allowframebreaks]{\secname}
-%	\printbibliography
-%\end{frame}
-\bibliography{ref}
+\section{References}
+\begin{frame}[allowframebreaks]{\secname}
+	\printbibliography
+\end{frame}
 
 \begin{frame}{Acknowledgements}
 	\begin{itemize}
