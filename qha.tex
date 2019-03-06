@@ -80,7 +80,7 @@
 	\begin{itemize}[<+(1)->]
 		\setlength\itemsep{1em}
 		\item a useful tool to compute materials thermodynamic properties at high $T$, $P$
-		\item a good approximation up to about $\frac{ 2 }{ 3 }$ of the $T_\text{melting}$
+		\item a good approximation up to about $0.7 T_\text{melting}$
 		\item static contribution by (DFT, AIMD), vibrational contribution: DFPT followed by QHA
 		\item deal with multiple configuration systems
 	\end{itemize}
@@ -101,15 +101,15 @@
 	\begin{itemize}[<+(1)->]
 		\item single configuration system:
 		      \begin{align}
-			      Z(T, V) & = \exp\big( -{E(V)}/{k_B T} \big) \prod_{\bm{q}, m} \frac{\exp(-\hbar \omega_{\bm{q}s}/2k_B T)}{1 - \exp(-\hbar \omega_{\bm{q}s}/k_B T)}, \\
-			      F(T, V) & = -k_B T \ln Z(T, V),
+			      Z(T, v) & = \exp\big( -{E(v)}/{k_B T} \big) \prod_{\bm{q}, s} \frac{\exp(-\hbar \omega_{\bm{q}s}(v)/2k_B T)}{1 - \exp(-\hbar \omega_{\bm{q}s}(v)/k_B T)}, \\
+			      F(T, v) & = -k_B T \ln Z(T, v),
 		      \end{align}
 		\item multi-configuration systems:
 		      \begin{align}
-			      Z(T, V_i) & = \sum_{n=1}^{N_c} g_n Z_n (T, V_i), \\
-			      F(T, V_i) & = -k_B T \ln Z(T, V_i).
+			      Z(T, v) & = \sum_{n=1}^{N_c} g_n Z_n (T, v), \\
+			      F(T, v) & = -k_B T \ln Z(T, v).
 		      \end{align}
-		\item finite strain equation of state fitting to string $\{F(T, V_i)\}$’s to a continuous function $F(T, V)$
+		\item finite strain equation of state fitting to string $\{F(T, v)\}$’s to a continuous function $F(T, V)$
 	\end{itemize}
 \end{frame}
 
