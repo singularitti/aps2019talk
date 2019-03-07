@@ -5,7 +5,7 @@
 \documentclass[13pt,aspectratio=169]{beamer}
 
 \usetheme{Berkeley}
-\usecolortheme{crane}
+\usecolortheme{whale}
 \makeatletter
 \beamer@headheight=1.5\baselineskip
 \makeatother
@@ -81,12 +81,12 @@
 		\setlength\itemsep{1em}
 		\item a useful tool to compute materials thermodynamic properties at high $T$, $P$
 		\item a good approximation up to about $0.7 T_\text{melting}$
-		\item static contribution by (DFT, AIMD), vibrational contribution: DFPT followed by QHA
+		\item Born--Oppenheimer approximation: static contribution + vibrational contribution (QHA on phonon spectra)
 		\item deal with multiple configuration systems
 	\end{itemize}
 \end{frame}
 
-\subsection{Multi-configuration system that \texttt{qha} may apply}
+\subsection{Multi-configuration systems that \texttt{qha} may apply}
 \begin{frame}{\subsecname}
 	\begin{itemize}[<+(1)->]
 		\setlength\itemsep{1em}
@@ -102,7 +102,7 @@
 		\item single configuration system:
 		      \begin{align}
 			      Z(T, v) & = \exp\big( -{E(v)}/{k_B T} \big) \prod_{\bm{q}, s} \frac{\exp(-\hbar \omega_{\bm{q}s}(v)/2k_B T)}{1 - \exp(-\hbar \omega_{\bm{q}s}(v)/k_B T)}, \\
-			      F(T, v) & = -k_B T \ln Z(T, v),
+			      F(T, v) & = -k_B T \ln Z(T, v).
 		      \end{align}
 		\item multi-configuration systems:
 		      \begin{align}
@@ -113,14 +113,14 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{\subsecname}
+\begin{frame}{Flow chart}
 	\centering
 	\includegraphics[height=0.95\textheight]{images/flow}%
 \end{frame}
 
 \section{Examples}
 
-\subsection{ice VII(disorder)-VIII(order) phase transition}
+\subsection{Ice VII(disorder)-VIII(order) phase transition}
 \begin{frame}{\subsecname}
 	\centering
 	\includegraphics[height=0.9\textheight]{images/ice7}%
@@ -141,7 +141,7 @@
 			\end{figure}
 		\end{column}
 
-		\begin{column}{0.45\textwidth}
+		\begin{column}{0.5\textwidth}
 			\begin{figure}
 				\includegraphics[width=\columnwidth]{images/boundary}%
 			\end{figure}
@@ -149,7 +149,7 @@
 	\end{columns}
 \end{frame}
 
-\subsection{stability of hydrous defects in \ce{Mg2SiO4}-forsterite}
+\subsection{Stability of hydrous defects in \ce{Mg2SiO4}-forsterite}
 \begin{frame}[allowframebreaks]{\subsecname}
 	\begin{columns}
 		\begin{column}{0.4\textwidth}
@@ -183,26 +183,25 @@
 		\begin{column}{0.45\textwidth}
 			\texttt{qha}\\
 			\begin{itemize}[<+(1)->]
-				\item addresses multi-configuration systems
-				\item $G(T,p) = F(T, V) - \Big( \frac{ \partial F }{ \partial V } \Big)_T V$
+				\item addresses the thermodynamic properties of multi-configuration systems
 				\item directly sample the free energy in Brillouin zone
-				\item uses JIT techniques to speedup computation
+				\item balances the speed and flexiblility
 			\end{itemize}
 		\end{column}
 
 		\begin{column}{0.45\textwidth}
 			other codes\\
 			\begin{itemize}
-				\item address the thermodynamic properties of single configuration systems
-				\item $G(T,p)= \min_{V}[F(T,V)+pV]$ \footnotemark
+				\item address single configuration systems
 				\item integrate the vibrational density of states $g(\omega)$ to get $F$ \footnotemark
+				\item less flexible and extensible \footnotemark
 			\end{itemize}
 		\end{column}
 	\end{columns}
 	\setcounter{footnote}{5}
-	\footcitetext{phonopy}
-	\stepcounter{footnote}
 	\footcitetext{Petretto:2018gg}
+	\stepcounter{footnote}
+	\footnotetext{\url{https://github.com/dalcorso/thermo_pw}}
 \end{frame}
 
 \subsection{Applications and extensibility}
@@ -218,30 +217,57 @@
 
 		\begin{column}{0.45\textwidth}
 			\begin{itemize}[<+(1)->]
-				\item Applications to materials research
+				\item Extensibilities to materials research
 				      \begin{itemize}
-					      \item investigate thermoelastic properties of materials \footnotemark
-					      \item investigate metals with its phonon frequencies varying at different temperature
-				      \end{itemize}
-				\item Applications to geophysical research
-				      \begin{itemize}
-					      \item calculate the geotherm and isentrope \footnotemark
-					      \item calculate the isotope ratio and isotope fractionation factor
+					      \item thermoelastic properties of materials \footnotemark
+					      \item metals with phonon frequencies varying at different electronic temperatures (introduced in seission H17.00005, Tuesday)
 				      \end{itemize}
 			\end{itemize}
 		\end{column}
 	\end{columns}
 	\setcounter{footnote}{7}
 	\footcitetext{Wu:2011ea}
-	\stepcounter{footnote}
+\end{frame}
+
+\begin{frame}{\subsecname}
+	\begin{columns}
+		\begin{column}{0.45\textwidth}
+			\begin{figure}
+				\includegraphics[height=0.7\textheight]{images/website}%
+				\captionsetup{labelformat=empty}
+				\caption{\scriptsize\url{https://github.com/MineralsCloud/qha}}
+			\end{figure}
+		\end{column}
+
+		\begin{column}{0.45\textwidth}
+			\begin{itemize}[<+(1)->]
+				\item Extensibilities to geophysical research
+				      \begin{itemize}
+					      \item calculate the geotherm and isentrope \footnotemark\textsuperscript{,}\footnotemark
+					      \item calculate the isotope ratio and isotope fractionation factor (in progress)
+				      \end{itemize}
+				\item A Julia version of \texttt{qha} (in progress)
+			\end{itemize}
+			\uncover<+->{
+				\begin{figure}
+					\centering
+					\includegraphics[height=0.15\textheight]{images/julia}%
+				\end{figure}
+			}
+		\end{column}
+	\end{columns}
+	\setcounter{footnote}{8}
 	\footcitetext{Cardona:2017dd}
+	\stepcounter{footnote}
+	\footnotetext{\url{https://github.com/MineralsCloud/geothermpy}}
 \end{frame}
 
 \begin{frame}{\secname}
 	\begin{itemize}[<+(1)->]
 		\setlength\itemsep{1em}
-		\item Implement a fast, easy-to-use, Python package \texttt{qha} for tranditional QHA calculations
-		\item \texttt{qha} can calculate multi-configuration system's equation of state and the thermodynamic properties
+		\item \texttt{qha} is a fast, user-friendly Python package for tranditional QHA calculations
+		\item \texttt{qha} can calculate multi-configuration system's equation of state and other thermodynamic properties
+		\item \texttt{qha} is extensible and will form a more complete toolchain in the near future
 	\end{itemize}
 \end{frame}
 
