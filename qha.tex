@@ -26,7 +26,7 @@
 \usepackage{graphicx}
 \usepackage[version=4]{mhchem}
 \usepackage{siunitx}
-\usepackage[figurename=Fig.]{caption}
+\usepackage[labelformat=empty]{caption}
 \usepackage{bm}
 \usepackage[bibstyle=nature,backend=biber]{biblatex}
 
@@ -98,9 +98,9 @@
 \begin{frame}{\subsecname}
 	\begin{itemize}[<+(1)->]
 		\setlength\itemsep{1em}
-		\item the order-disorder phase boundary between ice-\RMN{8} and ice-\RMN{7} \footcite{umemoto2010order},
-		\item the relative stability of hydrous defects in \ce{Mg2SiO4}-forsterite at high $P$ and $T$ \footcite{qin2018ab},
-		\item the effect of disorder and iron concentration on the spin crossover diagram of \ce{Fe^3+}-bearing \ce{MgSiO3}-bridgmanite \footcite{shukla2016spin}.
+		\item the order-disorder phase boundary between ice-\RMN{8} and ice-\RMN{7} \footcite{umemoto2010order}
+		\item the relative stability of hydrous defects in \ce{Mg2SiO4}-forsterite at high $P$ and $T$ \footcite{qin2018ab}
+		\item the effect of disorder and iron concentration on the spin crossover diagram of \ce{Fe^3+}-bearing \ce{MgSiO3}-bridgmanite \footcite{shukla2016spin}
 	\end{itemize}
 \end{frame}
 
@@ -128,30 +128,32 @@
 
 \section{Examples}
 
-\subsection{Ice VII(disorder)-VIII(order) phase transition}
-\begin{frame}{\subsecname}
+\subsection{Ice VII(disordered)-VIII(ordered) phase transition}
+\begin{frame}{\subsecname{} \RMN{1}}
 	\centering
 	\includegraphics[height=0.9\textheight]{images/ice7}%
 \end{frame}
 
-\begin{frame}{\subsecname}
+\begin{frame}{\subsecname{} \RMN{2}}
 	\begin{figure}
 		\includegraphics[height=0.75\textheight]{images/ice_prob}%
 		\caption{Possibilities $P_i(V, T) = \frac{g_i \exp\Big(\frac{-E_i(V)}{k_B T}\Big)}{Z(V, T)}$ of the $52$ configurations}
 	\end{figure}
 \end{frame}
 
-\begin{frame}{\subsecname}
+\begin{frame}{\subsecname{} \RMN{3}}
 	\begin{columns}
-		\begin{column}{0.45\textwidth}
-			\begin{figure}
+		\begin{column}{0.4\textwidth}
+			\begin{figure}[t]
 				\includegraphics[width=\columnwidth]{images/cp}%
 			\end{figure}
 		\end{column}
 
-		\begin{column}{0.5\textwidth}
-			\begin{figure}
+		\begin{column}{0.55\textwidth}
+			\begin{figure}[t]
 				\includegraphics[width=\columnwidth]{images/boundary}%
+				\caption{Blue line: static, red lines: QHA results, black lines: experimental results,
+				solid lines: \ce{H2O}, dashed lines: \ce{D2O}}
 			\end{figure}
 		\end{column}
 	\end{columns}
