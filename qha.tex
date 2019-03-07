@@ -32,6 +32,14 @@
 
 \newcommand*{\rmn}[1]{\romannumeral#1}
 \newcommand*{\RMN}[1]{\uppercase\expandafter{\romannumeral#1}}
+\makeatletter
+    \def\@makefnmark{\hbox{{{\usebeamercolor[fg]{footnote mark}\usebeamerfont*{footnote mark} [\@thefnmark]}}}}
+
+    \def\@makefntext#1{%
+        \def\insertfootnotetext{ #1}%
+        \def\insertfootnotemark{\@makefnmark}%
+        \usebeamertemplate***{footnote}}
+\makeatother
 \DeclareCiteCommand{\footcite}[\mkbibfootnote]
 	{\usebibmacro{prenote}}
 	{\printnames[family-given]{labelname}%
@@ -60,8 +68,8 @@
 \author[Qi Zhang et. al.]{\underline{Qi Zhang} \inst{1} \and Tian Qin \inst{2} \and Renata Wentzcovitch\inst{1,3} \and Koichiro Umemoto\inst{4}}
 \institute{\inst{1} Applied Physics and Applied Mathematics Department, Columbia University, New York, NY \and%
 	\inst{2} Department of Earth Sciences, University of Minnesota, Minneapolis, MN \and%
-\inst{3} Lamont-Doherty Earth Observatory, Columbia University, Palisades, NY \and%
-\inst{4} Earth-Life Science Institute, Tokyo Institute of Technology}
+	\inst{3} Lamont-Doherty Earth Observatory, Columbia University, Palisades, NY \and%
+	\inst{4} Earth-Life Science Institute, Tokyo Institute of Technology}
 \title[\texttt{qha}]{\texttt{qha}: A Python package for quasi-harmonic free energy calculation for multi-configuration systems\footcite{qin2018qha}}
 \date{}
 
@@ -193,8 +201,8 @@
 			other codes\\
 			\begin{itemize}
 				\item address single configuration systems
-				\item integrate the vibrational density of states $g(\omega)$ to get $F$ \footnotemark
-				\item less flexible and extensible \footnotemark
+				\item integrate the vibrational density of states $g(\omega)$ to get $F$\footnotemark
+				\item less flexible and extensible\footnotemark
 			\end{itemize}
 		\end{column}
 	\end{columns}
@@ -204,7 +212,7 @@
 	\footnotetext{\url{https://github.com/dalcorso/thermo_pw}}
 \end{frame}
 
-\subsection{Applications and extensibility}
+\subsection{Applications or extensibilities}
 \begin{frame}{\subsecname}
 	\begin{columns}
 		\begin{column}{0.45\textwidth}
@@ -219,47 +227,17 @@
 			\begin{itemize}[<+(1)->]
 				\item Extensibilities to materials research
 				      \begin{itemize}
-					      \item thermoelastic properties of materials \footnotemark
+					      \item thermoelastic properties of materials\footnotemark
 					      \item metals with phonon frequencies varying at different electronic temperatures (introduced in seission H17.00005, Tuesday)
+					      \item calculate the geotherm and isentrope\footnotemark
 				      \end{itemize}
 			\end{itemize}
 		\end{column}
 	\end{columns}
 	\setcounter{footnote}{7}
 	\footcitetext{Wu:2011ea}
-\end{frame}
-
-\begin{frame}{\subsecname}
-	\begin{columns}
-		\begin{column}{0.45\textwidth}
-			\begin{figure}
-				\includegraphics[height=0.7\textheight]{images/website}%
-				\captionsetup{labelformat=empty}
-				\caption{\scriptsize\url{https://github.com/MineralsCloud/qha}}
-			\end{figure}
-		\end{column}
-
-		\begin{column}{0.45\textwidth}
-			\begin{itemize}[<+(1)->]
-				\item Extensibilities to geophysical research
-				      \begin{itemize}
-					      \item calculate the geotherm and isentrope \footnotemark\textsuperscript{,}\footnotemark
-					      \item calculate the isotope ratio and isotope fractionation factor (in progress)
-				      \end{itemize}
-				\item A Julia version of \texttt{qha} (in progress)
-			\end{itemize}
-			\uncover<+->{
-				\begin{figure}
-					\centering
-					\includegraphics[height=0.15\textheight]{images/julia}%
-				\end{figure}
-			}
-		\end{column}
-	\end{columns}
-	\setcounter{footnote}{8}
-	\footcitetext{Cardona:2017dd}
 	\stepcounter{footnote}
-	\footnotetext{\url{https://github.com/MineralsCloud/geothermpy}}
+	\footcitetext{Cardona:2017dd}
 \end{frame}
 
 \begin{frame}{\secname}
@@ -276,6 +254,7 @@
 	\begin{itemize}
 		\item NSF EAR-1503084, NSF EAR-1341862, NSF EAR-1348066
 		\item Stampede2 at the Texas Advanced Computing Center (TACC), University of Texas at Austin
+		\item Habanero HPC Cluster, Columbia University
 	\end{itemize}
 \end{frame}
 
