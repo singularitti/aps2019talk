@@ -88,7 +88,7 @@
 	\begin{itemize}[<+(1)->]
 		\setlength\itemsep{1em}
 		\item a useful tool to compute materials thermodynamic properties at high $T$, $P$
-		\item a good approximation up to about $0.7 T_\text{melting}$
+		\item a good approximation when $T$ is not too close to $T_\text{M}$
 		\item Born--Oppenheimer approximation: static contribution + vibrational contribution (QHA on phonon spectra)
 		\item deal with multiple configuration systems
 	\end{itemize}
@@ -148,11 +148,11 @@
 				\includegraphics[width=\columnwidth]{images/cp}%
 			\end{figure}
 		\end{column}
-
-		\begin{column}{0.55\textwidth}
+		\hfill
+		\begin{column}{0.5\textwidth}
 			\begin{figure}[t]
 				\includegraphics[width=\columnwidth]{images/boundary}%
-				\caption{Blue line: static, red lines: QHA results, black lines: experimental results,
+				\caption{\footcite{umemoto2010order} Blue line: static, red lines: QHA results, black lines: experimental results,
 				solid lines: \ce{H2O}, dashed lines: \ce{D2O}}
 			\end{figure}
 		\end{column}
@@ -168,7 +168,7 @@
 			\texttt{qha}\\
 			\begin{itemize}[<+(1)->]
 				\item addresses the thermodynamic properties of multi-configuration systems
-				\item directly sample the free energy in Brillouin zone
+				\item directly samples the free energy in Brillouin zone
 				\item balances the speed and flexiblility
 			\end{itemize}
 		\end{column}
