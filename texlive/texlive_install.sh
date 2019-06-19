@@ -33,6 +33,9 @@ tlmgr install luatex
 cd "$(dirname "${BASH_SOURCE[0]}")" || exit
 tlmgr install "$(cat texlive_packages)"
 
+tlmgr install texliveonfly
+tlmgr install latexmk
+
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0
 
