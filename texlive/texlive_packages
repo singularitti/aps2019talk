@@ -1,0 +1,11 @@
+inputenc
+amsfonts
+amssymb
+amsmath
+graphicx
+mhchem
+siunitx
+caption
+bm
+biblatex
+beamer

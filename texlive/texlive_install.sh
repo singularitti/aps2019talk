@@ -28,20 +28,10 @@ fi
 # Needed for any use of texlua even if not testing LuaTeX
 tlmgr install luatex
 
-# Other contrib packages: done as a block to avoid multiple calls to tlmgr
-# texlive-latex-base is needed to run pdflatex
-tlmgr install \
-    inputenc \
-    amsfonts \
-    amssymb \
-    amsmath \
-    graphicx \
-    mhchem \
-    siunitx \
-    caption \
-    bm \
-    biblatex \
-    beamer
+# Then you can add one package per line in the texlive_packages file
+# We need to change the working directory before including a file
+cd "$(dirname "${BASH_SOURCE[0]}")" || exit
+tlmgr install "$(cat texlive_packages)"
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0
