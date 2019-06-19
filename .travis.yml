@@ -1,10 +1,18 @@
+language: generic
+
+# Dependency of the minted package
+#before_install:
+# - sudo apt-get install python-pygments
 install:
- - source ./texlive_install.sh
+  - source ./texlive/texlive_install.sh
 cache:
   directories:
     - /tmp/texlive
     - $HOME/.texlive
+# Change working directory so including files will work
+before_script: cd $TRAVIS_BUILD_DIR/
 script:
-  - mkdir _build
-  # Prefix command with travis_wait x so it times out after 3 mins
-  - travis_wait 3 pdflatex -output-directory _build ./src/qha.tex
+  # Texliveonfly will download packages automatically
+  - texliveonfly qha.tex
+  # You can use latexmk to automatically handle bibtex and references (recommended)
+  - latexmk -pdf qha.tex
