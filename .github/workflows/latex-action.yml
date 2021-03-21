@@ -14,3 +14,4 @@ jobs:
         with:
           name: PDF
           path: main.pdf
+      - uses: upload-release-asset
